@@ -61,19 +61,12 @@ Node B: http://localhost:8082/
 3. Serve HTML Pages
 Use a static server (e.g., http-server) to serve Browser 1 on Node B and Browser 2 on Node A.
 
-4. 📁 File Structure
-├── Browser1/             # Audio Recorder + Datagram Sender
-├── Browser2/             # Audio Receiver + Playback UI
-├── LyraProcessor.groovy  # Groovy agent logic
-├── README.md
-└── Report.pdf            # Detailed project report
-
-5. ✅ Features
+4. ✅ Features
 -Low-bitrate voice compression with Lyra
 -Real-time audio transmission over simulated underwater links
 -Full-stack integration (Web ↔ Agent ↔ UnetStack)
 
-6. 📢 Credits
+5. 📢 Credits
 -UnetStack – ARL, National University of Singapore
 -Lyra Codec – Google
 
