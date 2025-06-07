@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Monitor Agent Mahir</title>
+  <script type="module">
+    import { Gateway, MessageClass } from '/js/unet.js';
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      const gw = new Gateway();
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+      function display(msg) {
+        const li = document.createElement('li');
+        li.textContent = msg;
+        document.getElementById('messages').appendChild(li);
+      }
+
+      try {
+        // Step 1: Check if agent "mahir" exists
+        const rsp = await gw._msgTxRx({
+          action: 'containsAgent',
+          agentID: 'mahir'
+        });
+
+        const exists = rsp?.answer === true;
+
+        if (exists) {
+          display("✅ Agent 'mahir' is running.");
+          console.log("✅ Agent 'mahir' is running.");
+
+          // Step 2: Subscribe to mahir's topic
+          const mahirTopic = gw.topic(gw.agent("mahir"));
+          await gw.subscribe(mahirTopic);
+          display("📡 Subscribed to: " + mahirTopic.name);
+          console.log("📡 Subscribed to topic:", mahirTopic.name);
+
+          // Step 3: Listen for DatagramNtf messages from mahir
+          gw.addMessageListener(async msg => {
+            console.log("📥 Received:", msg);
+
+            if (msg.__clazz__ === "org.arl.unet.DatagramNtf" && msg.data) {
+              display(`🎧 Audio received from ${msg.from} (${msg.data.length} bytes)`);
+
+              try {
+                // Debug: log the type and contents of msg.data
+                console.log("🔍 msg.data type:", typeof msg.data, msg.data);
+
+                // Step 1: Convert to Uint8Array safely
+                let audioBytes;
+                if (msg.data instanceof Uint8Array) {
+                  audioBytes = msg.data;
+                } else if (Array.isArray(msg.data)) {
+                  audioBytes = new Uint8Array(msg.data);
+                } else {
+                  throw new Error("msg.data is not a valid audio byte array.");
+                }
+
+                // Step 2: Convert to ArrayBuffer
+                const arrayBuffer = audioBytes.buffer.slice(
+                  audioBytes.byteOffset,
+                  audioBytes.byteOffset + audioBytes.byteLength
+                );
+
+                // Step 3: Decode and play audio
+                const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                const source = audioContext.createBufferSource();
+                source.buffer = audioBuffer;
+                source.connect(audioContext.destination);
+                source.start();
+              } catch (err) {
+                console.error("❌ Audio decoding failed:", err);
+                display("⚠️ Failed to decode and play audio.");
+              }
+
+              return true;
+            }
+
+            return false;
+          });
+
+        } else {
+          display("❌ Agent 'mahir' is NOT running.");
+        }
+
+      } catch (e) {
+        console.error("⚠️ Error:", e);
+        display("⚠️ Error occurred while checking or subscribing.");
+      }
+    });
+  </script>
+</head>
+<body>
+  <h1>Agent Monitor: Mahir</h1>
+  <ul id="messages"></ul>
+</body>
+</html>
