@@ -6,6 +6,7 @@ Real-time underwater voice communication using Lyra codec and UnetStack simulato
 
 Project Components:
 1. LyraProcessor.groovy (Groovy Agent)
+   
 A custom fjåge agent that handles:
 
 -Encoding recorded WAV audio to .lyra format
@@ -45,6 +46,7 @@ Technologies Used:
 5.FFmpeg (for WAV conversion)
 
 System Workflow:
+
 1.User records audio on Browser 1 (Node B).
 
 2.Audio is sent to the LyraProcessor agent via DatagramReq.
