@@ -72,11 +72,10 @@ bazel build -c opt lyra/cli_example:encoder_main
 bazel build -c opt lyra/cli_example:decoder_main
 
 2. Setup UnetStack Simulator:
--Download UnetStack Community   [UnetStack Community](https://unetstack.net/#downloads):
+-Download [UnetStack Community](https://unetstack.net/#downloads):
 
-https://unetstack.net/#downloads
 
--Run the command:
+-Run the command on your terminal:
 
 bin/unet samples/2-node-network.groovy
 
