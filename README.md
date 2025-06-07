@@ -58,7 +58,7 @@ System Workflow:
 
 Setup Instructions:
 1. Build Lyra Codec
-2. 
+   
 Follow instructions in Lyra GitHub and install:
 
 Bazel 5+
