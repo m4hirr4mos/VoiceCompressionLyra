@@ -15,7 +15,7 @@ A custom fjåge agent that handles:
 
 -Handling DatagramReq and DatagramNtf messages in UnetStack
 
-3. Browser 1 (Webpage to Record & Send Audio):
+2. Browser 1 (Webpage to Record & Send Audio):
    
 -Records audio via microphone (MediaRecorder API)
 
@@ -23,7 +23,7 @@ A custom fjåge agent that handles:
 
 -Served from Node B
 
-5. Browser 2 (Webpage to Receive & Play Audio):
+3. Browser 2 (Webpage to Receive & Play Audio):
    
 -Subscribes to agent messages using unet.js
 
@@ -61,7 +61,7 @@ System Workflow:
 Setup Instructions:
 1. Build Lyra Codec
    
-Follow instructions in Lyra GitHub and install:
+Follow instructions in [Lyra GitHub](https://github.com/google/lyra) and install:
 
 Bazel 5+
 
@@ -73,13 +73,17 @@ bazel build -c opt lyra/cli_example:decoder_main
 
 3. Setup UnetStack Simulator:
 -Download UnetStack Community:
+
 https://unetstack.net/#downloads
 
--Run:
+-Run the command:
+
 bin/unet samples/2-node-network.groovy
 
 -Open:
+
 Node A: http://localhost:8081/
+
 Node B: http://localhost:8082/
 
 3. Serve HTML Pages
