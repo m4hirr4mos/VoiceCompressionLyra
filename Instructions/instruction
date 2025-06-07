@@ -1,8 +1,8 @@
 #Follow these steps sequentually to observe successful encoding and decoding of voice signals using Lyra on UnetStack
 
-1.Download Required Tools
+1. Download Required Tools
 
-2.Start the UnetStack Simulator
+2. Start the UnetStack Simulator
 
 3. Load the LyraProcessor.groovy Agent on Both Nodes
 
