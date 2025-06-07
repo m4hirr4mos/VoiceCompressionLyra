@@ -71,8 +71,8 @@ Then run:
 bazel build -c opt lyra/cli_example:encoder_main
 bazel build -c opt lyra/cli_example:decoder_main
 
-3. Setup UnetStack Simulator:
--Download UnetStack Community:
+2. Setup UnetStack Simulator:
+-Download UnetStack Community   [UnetStack Community](https://unetstack.net/#downloads):
 
 https://unetstack.net/#downloads
 
