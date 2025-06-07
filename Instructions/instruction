@@ -1,2 +1,27 @@
 #Follow these steps sequentually to observe successful encoding and decoding of voice signals using Lyra on UnetStack
 
+1.Download Required Tools
+
+2.Start the UnetStack Simulator
+
+3. Load the LyraProcessor.groovy Agent on Both Nodes
+
+4. Subscribe to Required Services
+
+5.In both nodes, ensure that the following are subsribe : LyraProcessor, UWLINK, and  PHYSICAL layer.
+
+6. Serve the Web Pages
+
+7. In Browser 1, click “Start Recording”, then “Stop Recording”.
+
+8. Click "Send Datagram" to transmit the audio to the agent on Node B.
+
+7. Observe Audio Playback
+
+8. The audio will be encoded by LyraProcessor on Node B, transmitted via DatagramNtf to Node A.
+
+9. Node A decodes it and broadcasts it.
+
+10. Browser 2 will receive and play the decoded audio in real time.
+
+
