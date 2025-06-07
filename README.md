@@ -4,7 +4,7 @@ Real-time underwater voice communication using Lyra codec and UnetStack simulato
 
 
 
-Project Components
+Project Components:
 1. LyraProcessor.groovy (Groovy Agent)
 A custom fjåge agent that handles:
 -Encoding recorded WAV audio to .lyra format
@@ -37,7 +37,7 @@ System Workflow:
 5.Browser 2 (Node A) receives the audio and plays it back.
 
 
-Setup Instructions
+Setup Instructions:
 1. Build Lyra Codec
 Follow instructions in Lyra GitHub and install:
 Bazel 5+
@@ -61,12 +61,12 @@ Node B: http://localhost:8082/
 3. Serve HTML Pages
 Use a static server (e.g., http-server) to serve Browser 1 on Node B and Browser 2 on Node A.
 
-4. ✅ Features
+4. ✅ Features:
 -Low-bitrate voice compression with Lyra
 -Real-time audio transmission over simulated underwater links
 -Full-stack integration (Web ↔ Agent ↔ UnetStack)
 
-5. 📢 Credits
+5. 📢 Credits:
 -UnetStack – ARL, National University of Singapore
 -Lyra Codec – Google
 
