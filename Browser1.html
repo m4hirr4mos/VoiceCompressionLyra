@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Recorder with Datagram Request</title>
+</head>
+<body>
+    <button id="startButton">Start Recording</button>
+    <button id="stopButton" disabled>Stop Recording</button>
+    <button type="button" id="sendBtn" disabled>Send Datagram</button>
+
+    <script type="module">
+        import { Gateway, Services, MessageClass } from '/js/unet.js';
+
+        var gw = new Gateway();
+
+        let mediaRecorder;
+        let chunks = [];
+        const DatagramReq = MessageClass('org.arl.unet.DatagramReq');
+
+        // Function to start recording
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function (stream) {
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    // Collect audio data
+                    mediaRecorder.ondataavailable = function (e) {
+                        chunks.push(e.data);
+                    };
+
+                    // When recording stops
+                    mediaRecorder.onstop = function () {
+                        // Create a single Blob from chunks
+                        const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+                        chunks = []; // Reset chunks
+
+                        // Send the recorded audio directly as a datagram
+                        sendDatagram(audioBlob);
+                    };
+
+                    mediaRecorder.start();
+                    console.log('Recording started...');
+                    document.getElementById('startButton').disabled = true;
+                    document.getElementById('stopButton').disabled = false;
+                })
+                .catch(function (err) {
+                    console.error('Error accessing microphone:', err);
+                });
+        }
+
+        // Function to stop recording
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                console.log('Recording stopped...');
+                document.getElementById('startButton').disabled = false;
+                document.getElementById('stopButton').disabled = true;
+            }
+        }
+
+        // Function to send the recorded audio as a datagram
+        function sendDatagram(audioBlob) {
+            const arrayBufferPromise = audioBlob.arrayBuffer(); // Get the ArrayBuffer directly from the Blob
+
+            arrayBufferPromise.then(arrayBuffer => {
+                const uint8Array = new Uint8Array(arrayBuffer);
+
+                console.log('Sending a datagram...');
+
+                // Create Datagram Request
+                var req = new DatagramReq();
+                req.recipient = gw.agent('mahir'); // Recipient agent
+                req.to = 232; 
+                req.protocol = 32;
+                req.data = Array.from(uint8Array); // Convert Uint8Array to array for datagram
+                //req.protocol = gw.Protocol.USER;
+		
+                gw.send(req);
+                console.log("Datagram has been sent");
+            });
+        }
+
+        // Event listener for the start button
+        document.getElementById('startButton').addEventListener('click', startRecording);
+
+        // Event listener for the stop button
+        document.getElementById('stopButton').addEventListener('click', stopRecording);
+    </script>
+</body>
+</html>
+
